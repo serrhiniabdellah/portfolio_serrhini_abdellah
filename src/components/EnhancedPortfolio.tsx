@@ -3,6 +3,24 @@ import { ArrowUpRight, Github, Linkedin, Terminal, Moon, Sun, ChevronDown, Mail,
 import { motion, AnimatePresence } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 
+// Add these new imports at the top
+import profileImage from '/profile.jpg'
+import backendBadge from '/backend.png'
+import frontendBadge from '/frontend.png'
+import githubBadge from '/github.png'
+
+// Add these CSS keyframes at the top of your component
+const ringAnimation = {
+  rotate: {
+    from: { transform: 'rotate(0deg)' },
+    to: { transform: 'rotate(360deg)' }
+  },
+  float: {
+    '0%, 100%': { transform: 'translateY(0px)' },
+    '50%': { transform: 'translateY(-10px)' }
+  }
+}
+
 type ColorTheme = 'green' | 'blue' | 'purple' | 'red' | 'orange' | 'pink' | 'cyan' | 'rainbow'
 
 export default function EnhancedPortfolio() {
@@ -305,7 +323,7 @@ export default function EnhancedPortfolio() {
             ))}
             <li className="md:ml-4">
               <motion.a
-                href="https://drive.google.com/file/d/1APL3wlbwcJN4C-ke7_HkpSiW6VAqZIha/view?usp=drive_link"
+                href="https://drive.google.com/file/d/1Y7WRP7m1sFuusk1cP--DHKrtwwNGuG4f/view?usp=sharing"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.05 }}
@@ -490,6 +508,105 @@ export default function EnhancedPortfolio() {
     return colors[colorTheme]
   }
 
+  const ScrollIndicator = () => (
+    <motion.svg 
+      viewBox="0 0 40 80" 
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-6 h-16"
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.1 }}
+    >
+      {/* Glowing background effect */}
+      <motion.rect
+        x="8"
+        y="10"
+        width="24"
+        height="60"
+        rx="12"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeOpacity="0.2"
+        initial={{ pathLength: 0 }}
+        animate={{ 
+          pathLength: 1,
+          strokeDasharray: "1 2",
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+      />
+      
+      {/* Main container */}
+      <motion.rect 
+        x="8" 
+        y="10" 
+        width="24" 
+        height="60" 
+        rx="12"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
+        transition={{
+          duration: 1.5,
+          ease: "easeInOut"
+        }}
+      />
+
+      {/* Animated dot */}
+      <motion.circle 
+        cx="20"
+        cy="25"
+        r="4"
+        fill="currentColor"
+        animate={{
+          cy: [25, 55, 25],
+          scale: [1, 0.8, 1],
+          opacity: [1, 0.6, 1]
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      >
+        {/* Glow effect */}
+        <motion.animate
+          attributeName="filter"
+          values="drop-shadow(0 0 2px currentColor);drop-shadow(0 0 4px currentColor);drop-shadow(0 0 2px currentColor)"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </motion.circle>
+
+      {/* Pulse rings */}
+      <motion.circle
+        cx="20"
+        cy="25"
+        r="6"
+        stroke="currentColor"
+        strokeWidth="1"
+        fill="none"
+        initial={{ scale: 0.5, opacity: 1 }}
+        animate={{
+          scale: 1.5,
+          opacity: 0,
+          cy: [25, 55, 25]
+        }}
+        transition={{
+          duration: 2,
+          repeat: Infinity,
+          ease: "easeInOut"
+        }}
+      />
+    </motion.svg>
+  );
+
   return (
     <div 
       className="min-h-screen transition-all duration-500"
@@ -518,132 +635,238 @@ export default function EnhancedPortfolio() {
           </header>
 
           <main className="container mx-auto px-4 py-20">
-            <section id="home" className="min-h-screen flex items-center justify-center py-20 relative">
-              {/* Optional: Animated Background Effect */}
-              <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-purple-500/5" />
-              </div>
-
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                className="text-center z-10 px-4"
-              >
-                {/* Greeting with Typing Effect */}
-                <motion.div 
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.2 }}
-                  className="mb-4"
-                >
-                  <span className={`text-lg ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>
-                    👋 Welcome to my portfolio
-                  </span>
-                </motion.div>
-
-                {/* Main Heading */}
-                <h1 className={`text-5xl md:text-7xl font-bold mb-6 ${isDarkMode ? 'text-white' : 'text-black'}`}>
-                  Hi, <span className="text-green-500">I'm</span>{' '}
-                  <span className="relative">
-                    SERRHINI Abdellah
-                    <motion.span
-                      className="absolute -bottom-2 left-0 w-full h-1 bg-green-500/20"
-                      initial={{ width: 0 }}
-                      animate={{ width: '100%' }}
-                      transition={{ delay: 0.5, duration: 0.8 }}
-                    />
-                  </span>
-                </h1>
-                <br />
-                
-                {/* Brief Introduction */}
-                <motion.p 
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.4 }}
-                  className={`text-xl max-w-2xl mx-auto mb-8 ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}
-                >
-                  I'm a Software Engineer specializing in{' '}
-                  <span className="text-green-500 font-semibold">full-stack development</span> and{' '}
-                  <span className="text-green-500 font-semibold"> Data Analyst</span>,
-                  passionate about building elegant solutions to complex problems.
-                </motion.p>
-                {/* CTA Buttons */}
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.6 }}
-                  className="flex flex-wrap items-center justify-center gap-4"
-                >
-                  <motion.a
-                    href="#contact"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-2 bg-green-500 text-black font-bold py-3 px-6 rounded-full 
-                      hover:bg-green-400 transition-colors"
-                  >
-                    <Mail className="w-5 h-5" />
-                    Get in touch
-                  </motion.a>
-                  <motion.a
-                    href="https://drive.google.com/file/d/1APL3wlbwcJN4C-ke7_HkpSiW6VAqZIha/view?usp=drive_link"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="inline-flex items-center gap-2 py-3 px-6 rounded-full border-2 border-green-500 
-                      text-green-500 font-bold hover:bg-green-500/10 transition-colors duration-300"
-                  >
-                    <FileText className="w-5 h-5" />
-                    Download Resume
-                  </motion.a>
-                </motion.div>
-
-                {/* Social Links */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.7 }}
-                  className="mt-12 flex justify-center gap-6"
-                >
-                  {[
-                    { icon: Github, href: 'https://github.com/serrhiniabdellah', label: 'GitHub' },
-                    { icon: Linkedin, href: 'https://www.linkedin.com/in/SERRHINIAbdellah', label: 'LinkedIn' },
-                    { icon: Code2, href: 'https://leetcode.com/u/serrhiniabdellah/', label: 'LeetCode' },
-                    { icon: Mail, href: 'mailto:SERRHINI-Abdellah@outlook.com', label: 'Email' }
-                  ].map((social, index) => (
-                    <motion.a
-                      key={index}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      className={`text-zinc-400 hover:text-green-500 transition-colors duration-300`}
-                      aria-label={social.label}
-                    >
-                      <social.icon className="w-6 h-6" />
-                    </motion.a>
-                  ))}
-                </motion.div>
-
-                {/* Scroll Indicator */}
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 0.8 }}
-                  className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-                >
+            <section id="home" className="min-h-screen flex items-start justify-center py-24 relative">
+              <div className="container mx-auto px-4 flex flex-col md:flex-row items-center gap-12 mb-20">
+                {/*  Profile Image Section */}
+                <div className="relative flex-shrink-0 mt-12">
                   <motion.div
-                    animate={{ y: [0, 8, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    className="flex flex-col items-center gap-2"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.5 }}
+                    className="relative w-64 h-80 md:w-72 md:h-96"
                   >
-                    <span className={`text-sm ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>Scroll to explore</span>
-                    <ChevronDown className="w-5 h-5 text-green-500" />
+                    {/* Pill-shaped container */}
+                    <div className="absolute inset-0 rounded-[30px] bg-gradient-to-br from-green-500/20 via-blue-500/20 to-purple-500/20 p-[2px]">
+                      <div className="absolute inset-0 rounded-[30px] backdrop-blur-sm bg-black/20" />
+                    </div>
+
+                    {/* Profile Image  */}
+                    <div className="relative h-full w-full rounded-[30px] overflow-hidden">
+                      <img
+                        src={profileImage}
+                        alt="SERRHINI Abdellah"
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+
+                    {/* Animated Ring */}
+                    <motion.div
+                      className="absolute -inset-1 rounded-[30px] border-2 border-green-500/20"
+                      animate={{
+                        rotate: 0,
+                        scale: [1, 1.05, 1]
+                      }}
+                      transition={{
+                        rotate: { duration: 8, repeat: Infinity, ease: "linear" },
+                        scale: { duration: 2, repeat: Infinity, ease: "easeInOut" }
+                      }}
+                    />
+
+                    {/* Floating Badges */}
+                    <motion.img
+                      src={githubBadge}
+                      alt="GitHub"
+                      className="absolute -top-4 -left-4 w-12 h-12 rounded-full border-2 border-white/20 shadow-lg bg-black/50"
+                      animate={{
+                        y: [-4, 4, -4],
+                        rotate: [0, 10, -10, 0]
+                      }}
+                      transition={{
+                        y: { duration: 2.5, repeat: Infinity, ease: "easeInOut" },
+                        rotate: { duration: 5, repeat: Infinity, ease: "easeInOut" }
+                      }}
+                    />
+                    <motion.img
+                      src={frontendBadge}
+                      alt="Frontend Developer"
+                      className="absolute -top-2 right-0 w-12 h-12 rounded-full border-2 border-white/20 shadow-lg bg-black/50"
+                      animate={{
+                        y: [-2, 6, -2],
+                        x: [-2, 4, -2]
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+                    <motion.img
+                      src={backendBadge}
+                      alt="Backend Developer"
+                      className="absolute -bottom-4 right-8 w-12 h-12 rounded-full border-2 border-white/20 shadow-lg bg-black/50"
+                      animate={{
+                        y: [-4, 4, -4],
+                        x: [-4, 4, -4]
+                      }}
+                      transition={{
+                        duration: 4,
+                        repeat: Infinity,
+                        ease: "easeInOut"
+                      }}
+                    />
+
+                    {/* Subtle Glow */}
+                    <div className="absolute -inset-4 bg-green-500/10 blur-3xl opacity-30 rounded-full" />
+                  </motion.div>
+                </div>
+
+                {/* Main Content */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="text-center md:text-left z-10 flex-1 mt-8"
+                >
+                  {/* Animated Background Effect */}
+                  <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 via-transparent to-purple-500/5" />
+                  </div>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="text-center z-10 px-4 space-y-8"
+                  >
+                    {/* Greeting with Typing Effect */}
+                    <motion.div 
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.2 }}
+                      className="mb-4"
+                    >
+                      <span className={`text-lg ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}>
+                        👋 Welcome to my portfolio
+                      </span>
+                    </motion.div>
+
+                    {/* Main Heading */}
+                    <h1 className={`text-5xl md:text-7xl font-bold mb-2 ${isDarkMode ? 'text-white' : 'text-black'}`}>
+                      Hi, <span className="text-green-500">I'm</span>{' '}
+                      <span className="relative">
+                        SERRHINI Abdellah
+                        <motion.span
+                          className="absolute -bottom-2 left-0 w-full h-1 bg-green-500/20"
+                          initial={{ width: 0 }}
+                          animate={{ width: '100%' }}
+                          transition={{ delay: 0.5, duration: 0.8 }}
+                        />
+                      </span>
+                    </h1>
+                    <br />
+                    
+                    {/* Brief Introduction */}
+                    <motion.p 
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.4 }}
+                      className={`text-xl max-w-2xl mx-auto mb-4 ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}
+                    >
+                      I'm a Software Engineer specializing in{' '}
+                      <span className="text-green-500 font-semibold">full-stack development</span> and{' '}
+                      <span className="text-green-500 font-semibold"> Data Analyst</span>,
+                      passionate about building elegant solutions to complex problems.
+                    </motion.p>
+                    {/* CTA Buttons */}
+                    <div className="space-y-8">
+                      {/* Content wrapper with higher z-index */}
+                      <div className="relative z-10">
+                        {/* CTA Buttons with pointer-events-auto */}
+                        <motion.div
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.6 }}
+                          className="flex flex-wrap items-center justify-center gap-4 mb-6 pointer-events-auto"
+                        >
+                          <motion.a
+                            href="#contact"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="inline-flex items-center gap-2 bg-green-500 text-black font-bold py-3 px-6 rounded-full 
+                              hover:bg-green-400 transition-colors relative z-10"
+                          >
+                            <Mail className="w-5 h-5" />
+                            Get in touch
+                          </motion.a>
+                          <motion.a
+                            href="https://drive.google.com/file/d/1Y7WRP7m1sFuusk1cP--DHKrtwwNGuG4f/view?usp=sharing"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="inline-flex items-center gap-2 py-3 px-6 rounded-full border-2 border-green-500 
+                              text-green-500 font-bold hover:bg-green-500/10 transition-colors duration-300 relative z-10"
+                          >
+                            <FileText className="w-5 h-5" />
+                            Download Resume
+                          </motion.a>
+                        </motion.div>
+
+
+                        {/* Social Links with pointer-events-auto */}
+                        <motion.div
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: 0.7 }}
+                          className="flex justify-center gap-6 pointer-events-auto relative z-10"
+                        >
+                          {[
+                            { icon: Github, href: 'https://github.com/serrhiniabdellah', label: 'GitHub' },
+                            { icon: Linkedin, href: 'https://www.linkedin.com/in/SERRHINIAbdellah', label: 'LinkedIn' },
+                            { icon: Code2, href: 'https://leetcode.com/u/serrhiniabdellah/', label: 'LeetCode' },
+                            { icon: Mail, href: 'mailto:SERRHINI-Abdellah@outlook.com', label: 'Email' }
+                          ].map((social, index) => (
+                            <motion.a
+                              key={index}
+                              href={social.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              whileHover={{ scale: 1.1, y: -2 }}
+                              className="text-zinc-400 hover:text-green-500 transition-colors duration-300 relative z-10"
+                              aria-label={social.label}
+                            >
+                              <social.icon className="w-6 h-6" />
+                            </motion.a>
+                          ))}
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Scroll Indicator */}
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      transition={{ delay: 0.8 }}
+                      className="absolute bottom-16 left-1/2 transform -translate-x-1/2 flex flex-col items-center gap-3"
+                    >
+                      <motion.span 
+                        className={`text-sm ${isDarkMode ? 'text-zinc-400' : 'text-gray-600'}`}
+                        animate={{ opacity: [0.5, 1, 0.5] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                      >
+                        Scroll to explore
+                      </motion.span>
+                      <motion.div 
+                        className={`${isDarkMode ? 'text-zinc-400' : 'text-gray-600'} relative`}
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                      >
+                        <ScrollIndicator />
+                      </motion.div>
+                    </motion.div>
                   </motion.div>
                 </motion.div>
-              </motion.div>
+              </div>
             </section>
 
             <section id="about" className="py-20">
@@ -753,7 +976,7 @@ export default function EnhancedPortfolio() {
                     <div className="space-y-4">
                       {[
                         { icon: '🏆', color: 'text-green-500', text: 'NVIDIA-Certified Associate: Generative AI and LLMs' },
-                        { icon: '🔭', color: 'text-yellow-500', text: 'Build web applications - Solve real-world problems through code' },
+                        { icon: '🔭', color: 'text-yellow-500', text: 'Build web applications - Solve real world problems through code' },
                         { icon: '🎯', color: 'text-blue-400', text: '2x Employee of the Month' }
                       ].map((achievement, index) => (
                         <motion.div
@@ -833,7 +1056,7 @@ export default function EnhancedPortfolio() {
                   Career Journey
                 </h2>
                 <motion.a
-                  href="https://drive.google.com/file/d/1APL3wlbwcJN4C-ke7_HkpSiW6VAqZIha/view?usp=drive_link"
+                  href="https://drive.google.com/file/d/1Y7WRP7m1sFuusk1cP--DHKrtwwNGuG4f/view?usp=sharing"
                   target="_blank"
                   rel="noopener noreferrer"
                   whileHover={{ scale: 1.05 }}
