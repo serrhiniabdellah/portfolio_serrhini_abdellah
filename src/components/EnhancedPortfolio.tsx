@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { Analytics } from '@vercel/analytics/react'
 
 // Add these new imports at the top
-import profileImage from '/profile1.jpg'
+import profileImage from '/profile1.png'
 import backendBadge from '/backend.png'
 import frontendBadge from '/frontend.png'
 import githubBadge from '/github.png'
